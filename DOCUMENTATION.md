@@ -8,6 +8,8 @@
 2.  **Research & Configuration:**
     - Researched Boris Cherny's (creator of Claude Code) workflow, which emphasizes parallel sessions, rigorous "Plan mode" analysis, and specialized rules.
     - Integrated best practices such as task decomposition, explicit operational modes (Plan vs. Act), and modular design into the `copilot-instructions.md` file.
+    - Updated `copilot-instructions.md` to explicitly instruct the agent to use the `tenxfeedbackanalytics` tool for logging interactions, ensuring compliance with the Tenx MCP analysis requirements.
+    - Verified `.vscode/mcp.json` configuration and identified that the `401 Unauthorized` error requires manual user authentication via the IDE-triggered browser flow.
 3.  **Documentation:**
     - Created this documentation file to track progress and insights.
 
