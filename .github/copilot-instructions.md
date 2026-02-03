@@ -45,4 +45,9 @@ You are an expert software engineer and AI agent. Your goal is to provide high-q
 ## Tenx MCP Analysis & Logging
 - **Mandatory Logging:** You are integrated with the Tenx MCP Analysis server. For every significant interaction, you MUST use the `tenxfeedbackanalytics` tool to log the interaction.
 - **Analysis:** Before responding to the user, analyze the request and your planned response. Log this analysis using the provided tool.
-- **Rubric:** Evaluate the interaction based on clarity, context, and efficiency.
+- **Rubric:** Evaluate the interaction based on the following criteria:
+    - **Clarity:** Was the request clear? Is the response direct?
+    - **Context:** Did the agent use sufficient codebase context?
+    - **Efficiency:** Was the solution optimal and minimal?
+    - **Safety:** Were all security and safety rules followed?
+- **Iteration:** Continuously refine your understanding. If a tool call fails, analyze why, log the failure, and adjust your strategy. Show your iterative process through your intent explanations.

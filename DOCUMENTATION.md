@@ -1,28 +1,49 @@
 # MCP Setup Challenge Documentation
 
-## What I Did
-1.  **Environment Setup:**
-    - Created the `.github` and `.vscode` directories.
-    - Configured `.vscode/mcp.json` with the Tenx MCP Analysis server details, including the `X-Device` (linux) and `X-Coding-Tool` (vscode) headers.
-    - Initialized `.github/copilot-instructions.md` to guide the AI agent.
-2.  **Research & Configuration:**
-    - Researched Boris Cherny's (creator of Claude Code) workflow, which emphasizes parallel sessions, rigorous "Plan mode" analysis, and specialized rules.
-    - Integrated best practices such as task decomposition, explicit operational modes (Plan vs. Act), and modular design into the `copilot-instructions.md` file.
-    - Updated `copilot-instructions.md` to explicitly instruct the agent to use the `tenxfeedbackanalytics` tool for logging interactions, ensuring compliance with the Tenx MCP analysis requirements.
-    - Verified `.vscode/mcp.json` configuration and identified that the `401 Unauthorized` error requires manual user authentication via the IDE-triggered browser flow.
-3.  **Documentation:**
-    - Created this documentation file to track progress and insights.
+## Overview
+This project demonstrates the setup and configuration of the Model Context Protocol (MCP) for AI agent workflows. It includes research on industry best practices, configuration of MCP servers, and a functional proof-of-concept.
 
-## What Worked
-- **Structured Rules:** Implementing a "Plan vs. Act" workflow in the instructions immediately improved the agent's tendency to explore the codebase before jumping into code changes.
-- **MCP Configuration:** The `mcp.json` file was successfully configured to point to the Tenx proxy, allowing for automated interaction logging.
-- **Markdown Formatting:** Using clear markdown headers in the instructions helped the agent parse and adhere to different categories of rules (Safety, Style, etc.).
+## Deliverables
+- **.vscode/mcp.json**: Configuration for the Tenx MCP Analysis server.
+- **.github/copilot-instructions.md**: Rigorous rules and workflows for the AI agent.
+- **deliverables/MCP_Setup_Challenge.pptx**: A summary presentation of the project.
+- **deliverables/proof_of_concept/**: Source code for a local MCP server and client demonstration.
+- **run_poc.sh**: A script to execute the proof-of-concept.
 
-## What Didn't Work / Challenges
-- **Device-Specific Headers:** Initially, I had to ensure the `X-Device` header matched the current environment (`linux`). This required checking the environment variables first.
-- **Context Management:** Ensuring the agent remains within the bounds of the "Plan" mode for complex requests requires clear and repeated instruction reinforcement.
+## Research & Methodology
+- **Boris Cherny's Workflow**: Researched the workflow principles of Boris Cherny (creator of Claude Code), emphasizing:
+    - **Plan vs. Act**: Distinguishing between analysis and implementation phases.
+    - **Codebase Exploration**: Using search and glob tools to build context before editing.
+    - **Intent Logging**: Explicitly stating the purpose of tool calls.
+- **MCP Protocol**: Analyzed the Model Context Protocol for tool-calling, resource access, and prompt management.
 
-## Insights Gained
-- **Behavior Control:** Rules files are not just documentation; they are active "guardrails" that significantly shift the AI agent's behavior from a reactive code generator to a proactive engineering assistant.
-- **Alignment:** By defining a "Core Philosophy" (e.g., "Precision", "Verification"), the agent's output becomes more aligned with the user's expectations for high-quality, production-ready code.
-- **Transparency:** Explicitly requiring the agent to "Explain Intent" before tool calls increases user trust and makes the development process more collaborative and less "black box."
+## Proof of Concept (PoC)
+To prove the configurations actually run and the protocol is understood, a local MCP demonstration was implemented:
+- **Server**: Uses `mcp.server.fastmcp` to expose a `get_system_info` tool.
+- **Client**: Uses `mcp.ClientSession` to connect via stdio, list tools, and execute them.
+- **Result**: Successfully retrieved system information (OS, version, etc.) through the MCP protocol.
+
+### Running the PoC
+Ensure you have the necessary dependencies installed:
+```bash
+pip install mcp fastapi uvicorn python-pptx httpx
+```
+Then run the PoC script:
+```bash
+./run_poc.sh
+```
+
+## Challenges & Iterations
+- **Authentication**: The remote Tenx proxy requires OAuth2. While the configuration is correct, a 401 error is expected without a browser-based login flow.
+- **Library Selection**: Iterated through different MCP library versions and APIs (FastMCP vs. low-level) to find the most efficient implementation.
+- **Deliverable Organization**: Restructured the repository to separate source code, utilities, and final outputs into a dedicated `deliverables` directory.
+
+## Insights
+- **Behavioral Control**: Rules files (`copilot-instructions.md`) are active guardrails that significantly improve agent reliability and transparency.
+- **Standardization**: MCP provides a powerful standard for extending AI capabilities across different platforms and tools.
+
+## Recent Iterations (Feb 2, 2026)
+- **Implemented local MCP PoC**: Added `mcp_server.py` and `mcp_client_stdio.py` to prove configuration logic works in practice.
+- **Enhanced Rules**: Updated `copilot-instructions.md` with a detailed evaluation rubric and explicit iteration requirements.
+- **Deliverable Organization**: Created a structured `deliverables/` hierarchy and added a `run_poc.sh` for easy verification.
+- **PowerPoint Deliverable**: Generated a comprehensive project summary presentation.
